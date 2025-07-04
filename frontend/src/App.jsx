@@ -3,6 +3,8 @@ import InputForm from "./components/InputForm";
 import ResultCard from "./components/ResultCard";
 import Loader from "./components/Loader";
 import axios from "axios";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 const App = () => {
   const [result, setResult] = useState(null);
@@ -20,8 +22,8 @@ const App = () => {
         {
           params: {
             url,
-            key: import.meta.env.VITE_PSI_API_KEY,
-          },
+            key: import.meta.env.VITE_PSI_API_KEY
+          }
         }
       );
 
@@ -40,7 +42,7 @@ const App = () => {
         ).toFixed(2),
         requestCount:
           data.lighthouseResult.audits["network-requests"].details.items.length,
-        url: data.id,
+        url: data.id
       };
 
       setResult(metrics);
@@ -52,13 +54,16 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-100">
-      <h1 className="text-2xl font-bold mb-6">🌐 URL Performance Analyzer</h1>
-      <InputForm onSubmit={fetchPerformance} />
-      {loading && <Loader />}
-      {error && <p className="text-red-500 mt-4">{error}</p>}
-      {result && <ResultCard data={result} />}
-    </div>
+    <>
+      <Navbar />
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-100">
+        <InputForm onSubmit={fetchPerformance} />
+        {loading && <Loader />}
+        {error && <p className="text-red-500 mt-4">{error}</p>}
+        {result && <ResultCard data={result} />}
+      </div>
+      <Footer />
+    </>
   );
 };
 
